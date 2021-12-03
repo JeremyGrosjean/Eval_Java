@@ -7,10 +7,14 @@ commands:
     description: echo hello
     steps:
       - run:
-          name : says hello
-          command : echo "Hello"
-
-
+          name: says hello
+          command: echo "Hello"
+  var-env:
+    description: echo de ma variable environnement
+    steps:
+      - run:
+          name: describe yourself
+          command: echo $moi
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -28,6 +32,7 @@ jobs:
       # Checkout the code as the first step.
       - checkout
       - say-hello
+      - var-env
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
