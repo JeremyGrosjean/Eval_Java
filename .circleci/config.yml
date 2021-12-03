@@ -54,6 +54,6 @@ workflows:
     jobs:
       - build
       - tests:
-        filters:
-          branches:
-            only: /^circleci-project-setup.*/
+          filters:
+            branches:
+              only: /^circleci-project-setup.*/
