@@ -57,7 +57,7 @@ workflows:
       - build
       - tests
         - filters:
-          - branches:
-              ignore: /.*/
+            - branches:
+                ignore: /.*/
         - requires:
             - build
