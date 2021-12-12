@@ -38,8 +38,8 @@ public class UberApi {
     public static Booking bookOneDriver(UberUser uberUser) {
 
         EntityManager em = emf.createEntityManager();
-            List<UberDriver> uberDriverList = (List<UberDriver>) em.createQuery("SELECT u From UberDriver u WHERE u.available = true").getResultList();
-            if (uberDriverList.size()>0){
+            List<UberDriver> uberDriverList = (List<UberDriver>) em.createQuery("SELECT u From UberDriver u WHERE u.available = true").setMaxResults(1).getResultList();
+            if (!uberDriverList.isEmpty()) {
                 Booking booking = new Booking();
                 em.getTransaction().begin();
                 UberDriver uberDriver = uberDriverList.get(0);
@@ -85,7 +85,11 @@ public class UberApi {
 
     public static List<Booking> listDriverBookings(UberDriver uberDriver) {
         EntityManager em = emf.createEntityManager();
-        return (List<Booking>) em.createQuery("SELECT b FROM Booking b").getResultList();
+        List<Booking> driverBookings = (List<Booking>) em.createQuery("SELECT b FROM Booking b where b.uberDriver = :uberDriver")
+            .setParameter("uberDriver", uberDriver)
+            .getResultList();
+        em.close();
+        return driverBookings;
     }
 
     public static List<Booking> listUnfinishedBookings() {
